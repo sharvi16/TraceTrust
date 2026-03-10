@@ -1,4 +1,4 @@
-# TraceTrust 🔍
+# TraceTrust 
 
 > A real-time financial transparency platform that shows donors exactly where their money goes.
 
@@ -7,37 +7,13 @@
 ## The Problem
 
 The NGO sector suffers from a deep crisis of accountability. Millions of donors contribute billions of rupees annually to charities and non-governmental organisations, yet have virtually no visibility into how their money is actually used. Reports are delayed by months, audits are opaque, and when a scandal does emerge — misappropriated funds, bloated admin costs, ghost expenses — donor trust collapses across the entire sector, not just the offending organisation.
-cd d:\TraceTrust\tracetrust
-Copy-Item .env.example .envThis information asymmetry isn't just unfair — it's damaging. Well-run NGOs struggle to differentiate themselves from poorly managed ones because there is no real-time, machine-readable record that anyone can verify. Donors who want to give responsibly have no reliable signal. The result is reduced donations, misallocated charity, and a weakened civil society.
+This information asymmetry isn't just unfair — it's damaging. Well-run NGOs struggle to differentiate themselves from poorly managed ones because there is no real-time, machine-readable record that anyone can verify. Donors who want to give responsibly have no reliable signal. The result is reduced donations, misallocated charity, and a weakened civil society.
 
 ## Solution
 
 TraceTrust is a full-stack financial transparency platform purpose-built for the NGO sector. Every rupee donated and every expense logged is recorded in an append-only audit trail. A publicly visible impact score — calculated from the ratio of program spending to total donations received — lets any visitor immediately gauge an NGO's financial health without needing to read a single PDF report.
 
 Under the hood, a two-layer anomaly detection engine (rule-based heuristics + a per-NGO Isolation Forest ML model) continuously monitors transactions and flags suspicious activity in real time. NGO admins see their anomaly alerts instantly, super admins can resolve them, and every state change is logged. The result is a system where integrity is enforced by the platform, not just promised in a mission statement.
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     React Frontend                          │
-│         (Vite · Tailwind CSS · Chart.js · Axios)            │
-└────────────────────────┬────────────────────────────────────┘
-                         │ HTTP / REST
-┌────────────────────────▼────────────────────────────────────┐
-│                   FastAPI Backend                           │
-│            (Auth · Donations · Expenses ·                   │
-│             Impact · Anomaly Detection)                     │
-└──────┬──────────────────┬──────────────────┬────────────────┘
-       │                  │                  │
-┌──────▼──────┐  ┌────────▼───────┐  ┌──────▼──────────────┐
-│ PostgreSQL  │  │     Redis      │  │   ML Model          │
-│  (primary   │  │  (impact score │  │ (Isolation Forest   │
-│   store)    │  │   cache 300s)  │  │  per-NGO .pkl file) │
-└─────────────┘  └────────────────┘  └─────────────────────┘
-```
 
 ---
 
